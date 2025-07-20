@@ -135,9 +135,9 @@ export const RightSidebar = () => {
 
 	return (
 		<>
-			<div className="fixed right-0 top-0 w-80 h-screen border-l border-border bg-background/50 backdrop-blur-sm flex flex-col">
+			<div className="w-full h-full bg-background/50 backdrop-blur-sm flex flex-col md:fixed md:right-0 md:top-0 md:w-80 md:border-l md:border-border">
 			{/* Recently Added Leads */}
-			<div className="p-4 border-b border-border">
+			<div className="p-4 border-b border-border flex-shrink-0">
 				<div className="flex items-center justify-between mb-4">
 					<h2 className="text-lg font-semibold text-foreground">
 						Recently Added Leads
@@ -211,7 +211,7 @@ export const RightSidebar = () => {
 			</div>
 
 			{/* Knowledge Base Files */}
-			<div className="p-4 border-b border-border">
+			<div className="p-4 border-b border-border flex-shrink-0">
 				<div className="flex items-center justify-between mb-4">
 					<h2 className="text-lg font-semibold text-foreground">
 						Knowledge Base

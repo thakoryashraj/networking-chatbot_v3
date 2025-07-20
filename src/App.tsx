@@ -36,25 +36,42 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/*" element={
                 <ProtectedRoute>
-                  <SidebarProvider>
-                    <div className="flex min-h-screen w-full">
-                      <AppSidebar />
-                      <div className="flex-1 flex flex-col">
-                        <main className="flex-1">
-                          <Routes>
-                            <Route path="/" element={<Chat />} />
-                            <Route path="/analytics" element={<Analytics />} />
-                            <Route path="/leads" element={<Leads />} />
-                            <Route path="/appointments" element={<Appointments />} />
-                            <Route path="/mails" element={<Mails />} />
-                            <Route path="/settings" element={<Settings />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/upgrade" element={<Upgrade />} />
-                            <Route path="/tutorial" element={<Tutorial />} />
-                            <Route path="*" element={<NotFound />} />
-                          </Routes>
-                        </main>
-                      </div>
+                  <Routes>
+                    <Route path="/" element={<Chat />} />
+                    <Route path="/*" element={
+                      <SidebarProvider>
+                        <div className="flex min-h-screen w-full">
+                          <AppSidebar />
+                          <div className="flex-1 flex flex-col">
+                            <main className="flex-1">
+                              <Routes>
+                                <Route path="/analytics" element={<Analytics />} />
+                                <Route path="/leads" element={<Leads />} />
+                                <Route path="/appointments" element={<Appointments />} />
+                                <Route path="/mails" element={<Mails />} />
+                                <Route path="/settings" element={<Settings />} />
+                                <Route path="/profile" element={<Profile />} />
+                                <Route path="/upgrade" element={<Upgrade />} />
+                                <Route path="/tutorial" element={<Tutorial />} />
+                                <Route path="*" element={<NotFound />} />
+                              </Routes>
+                            </main>
+                          </div>
+                        </div>
+                      </SidebarProvider>
+                    } />
+                  </Routes>
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
+);
+
+export default App;
                     </div>
                   </SidebarProvider>
                 </ProtectedRoute>
