@@ -80,18 +80,19 @@ const getStatusColor = (status: string) => {
 			return "bg-orange-100 text-orange-700 border-orange-200";
 		case "cold":
 			return "bg-blue-100 text-blue-700 border-blue-200";
+		default:
+			return "bg-gray-100 text-gray-700 border-gray-200";
+	}
+};
+
+export const RightSidebar = () => {
+	const { user } = useAuth();
+	const isMobile = useIsMobile();
 	const [recentLeads, setRecentLeads] = useState<RecentLead[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [selectedLead, setSelectedLead] = useState<RecentLead | null>(null);
 	const [viewModalOpen, setViewModalOpen] = useState(false);
 
-	// Don't render on mobile
-	if (isMobile) {
-		return null;
-	}
-
-	// Fetch recent leads
-	useEffect(() => {
 	// Don't render on mobile
 	if (isMobile) {
 		return null;
