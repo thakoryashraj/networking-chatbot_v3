@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -52,13 +53,15 @@ const getSourceColor = (source: string) => {
 };
 
 export function ViewLeadDialog({ lead, open, onOpenChange }: ViewLeadDialogProps) {
+  const titleId = useId();
+  
   if (!lead) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Lead Details</DialogTitle>
+          <DialogTitle id={titleId}>Lead Details</DialogTitle>
           <DialogDescription>
             View complete information for this lead
           </DialogDescription>

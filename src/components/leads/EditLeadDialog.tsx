@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -71,6 +72,7 @@ interface EditLeadDialogProps {
 }
 
 export function EditLeadDialog({ lead, open, onOpenChange }: EditLeadDialogProps) {
+  const titleId = useId();
   const { updateLead, updating } = useLeads();
 
   const form = useForm<LeadFormData>({
@@ -127,7 +129,7 @@ export function EditLeadDialog({ lead, open, onOpenChange }: EditLeadDialogProps
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Lead</DialogTitle>
+          <DialogTitle id={titleId}>Edit Lead</DialogTitle>
           <DialogDescription>
             Update the lead information. Modify any fields as needed.
           </DialogDescription>

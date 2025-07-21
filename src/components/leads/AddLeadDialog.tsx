@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -72,6 +73,7 @@ interface AddLeadDialogProps {
 
 export function AddLeadDialog({ children }: AddLeadDialogProps) {
   const [open, setOpen] = useState(false);
+  const titleId = useId();
   const { createLead, creating } = useLeads();
 
   const form = useForm<LeadFormData>({
@@ -119,7 +121,7 @@ export function AddLeadDialog({ children }: AddLeadDialogProps) {
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Lead</DialogTitle>
+          <DialogTitle id={titleId}>Add New Lead</DialogTitle>
           <DialogDescription>
             Create a new lead entry. Fill in the available information.
           </DialogDescription>
