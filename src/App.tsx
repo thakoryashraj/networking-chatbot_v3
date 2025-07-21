@@ -15,7 +15,7 @@ import Profile from './pages/Profile';
 import Upgrade from './pages/Upgrade';
 import Tutorial from './pages/Tutorial';
 import NotFound from './pages/NotFound';
-import AppSidebar from './components/AppSidebar';
+import { AppSidebar } from './components/AppSidebar';
 
 function App() {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
