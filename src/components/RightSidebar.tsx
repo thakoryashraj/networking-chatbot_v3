@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { ViewLeadDialog } from "@/components/leads/ViewLeadDialog";
 import { formatDistanceToNow } from "date-fns";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface RecentLead {
 	id: string;
@@ -86,10 +87,16 @@ const getStatusColor = (status: string) => {
 
 export const RightSidebar = () => {
 	const { user } = useAuth();
+	const isMobile = useIsMobile();
 	const [recentLeads, setRecentLeads] = useState<RecentLead[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [selectedLead, setSelectedLead] = useState<RecentLead | null>(null);
 	const [viewModalOpen, setViewModalOpen] = useState(false);
+
+	// Don't render on mobile
+	if (isMobile) {
+		return null;
+	}
 
 	// Fetch recent leads
 	useEffect(() => {

@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Pages
 import Chat from "./pages/Chat";
@@ -24,6 +25,41 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const AppContent = () => {
+  const isMobile = useIsMobile();
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/*" element={
+        <ProtectedRoute>
+          <SidebarProvider defaultOpen={!isMobile}>
+            <div className="flex min-h-screen w-full">
+              <AppSidebar />
+              <div className={`flex-1 flex flex-col ${isMobile ? 'pt-16' : ''}`}>
+                <main className="flex-1">
+                  <Routes>
+                    <Route path="/" element={<Chat />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/leads" element={<Leads />} />
+                    <Route path="/appointments" element={<Appointments />} />
+                    <Route path="/mails" element={<Mails />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/upgrade" element={<Upgrade />} />
+                    <Route path="/tutorial" element={<Tutorial />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+              </div>
+            </div>
+          </SidebarProvider>
+        </ProtectedRoute>
+      } />
+    </Routes>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="system" storageKey="ai-assistant-theme">
@@ -32,34 +68,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/*" element={
-                <ProtectedRoute>
-                  <SidebarProvider>
-                    <div className="flex min-h-screen w-full">
-                      <AppSidebar />
-                      <div className="flex-1 flex flex-col">
-                        <main className="flex-1">
-                          <Routes>
-                            <Route path="/" element={<Chat />} />
-                            <Route path="/analytics" element={<Analytics />} />
-                            <Route path="/leads" element={<Leads />} />
-                            <Route path="/appointments" element={<Appointments />} />
-                            <Route path="/mails" element={<Mails />} />
-                            <Route path="/settings" element={<Settings />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/upgrade" element={<Upgrade />} />
-                            <Route path="/tutorial" element={<Tutorial />} />
-                            <Route path="*" element={<NotFound />} />
-                          </Routes>
-                        </main>
-                      </div>
-                    </div>
-                  </SidebarProvider>
-                </ProtectedRoute>
-              } />
-            </Routes>
+            <AppContent />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
