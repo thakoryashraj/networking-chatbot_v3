@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Menu, X, PanelRight } from 'lucide-react';
-import { useSidebar } from '../components/ui/sidebar';
 import { AppSidebar } from '../components/AppSidebar';
 import { ChatInterface } from '../components/ChatInterface';
 import { RightSidebar } from '../components/RightSidebar';
 
-export default function Chat() {
-  const { openMobile, setOpenMobile } = useSidebar();
+interface ChatProps {
+  leftSidebarOpen: boolean;
+  setLeftSidebarOpen: (open: boolean) => void;
+}
+
+export default function Chat({ leftSidebarOpen, setLeftSidebarOpen }: ChatProps) {
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
 
   return (
@@ -14,7 +17,7 @@ export default function Chat() {
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         <button
-          onClick={() => setOpenMobile(!openMobile)}
+          onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         >
           <Menu className="w-5 h-5" />
@@ -34,17 +37,17 @@ export default function Chat() {
       </div>
 
       {/* Left Sidebar - Mobile Overlay */}
-      {openMobile && (
+      {leftSidebarOpen && (
         <div className="md:hidden fixed inset-0 z-40">
           <div 
             className="absolute inset-0 bg-black bg-opacity-50"
-            onClick={() => setOpenMobile(false)}
+            onClick={() => setLeftSidebarOpen(false)}
           />
           <div className="absolute left-0 top-0 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
               <button
-                onClick={() => setOpenMobile(false)}
+                onClick={() => setLeftSidebarOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
