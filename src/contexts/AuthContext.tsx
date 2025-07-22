@@ -38,6 +38,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+    }).catch((error) => {
+      if (error.message && error.message.includes('Refresh Token Not Found')) {
+        // Clear invalid session data and force clean logout
+        supabase.auth.signOut();
+      }
+      setSession(null);
+      setUser(null);
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
