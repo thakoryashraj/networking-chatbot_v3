@@ -13,7 +13,8 @@ import {
   Bot,
   User,
   Menu,
-  X
+  X,
+  PanelLeft
 } from "lucide-react";
 import {
   Sidebar,
@@ -53,6 +54,7 @@ export function AppSidebar() {
   const isMobile = useIsMobile();
   const currentPath = location.pathname;
   const [isExpanded, setIsExpanded] = useState(true);
+  const [showTrigger, setShowTrigger] = useState(false);
   const collapsed = state === "collapsed" && !isMobile;
 
   const isActive = (path: string) => currentPath === path;
@@ -82,6 +84,9 @@ export function AppSidebar() {
     return profile?.plan || "Free";
   };
 
+  const handleToggleSidebar = () => {
+    setOpen(!open);
+  };
   return (
     <>
       {/* Mobile Header with Hamburger Menu */}
@@ -123,22 +128,67 @@ export function AppSidebar() {
             "flex items-center p-4 border-b border-border",
             isMobile && "pt-20" // Add top padding on mobile to account for fixed header
           )}>
+            {/* Desktop Header with Toggle Logic */}
+            {!isMobile && (
+              <div className="flex items-center w-full">
+                <div 
+                  className="flex items-center gap-3 flex-1"
+                  onMouseEnter={() => collapsed && setShowTrigger(true)}
+                  onMouseLeave={() => collapsed && setShowTrigger(false)}
+                >
+                  <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center relative">
+                    <Bot className="w-6 h-6 text-white" />
+                    {/* Hover trigger for collapsed state */}
+                    {collapsed && showTrigger && (
+                      <div className="absolute -right-2 -top-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={handleToggleSidebar}
+                          className="h-6 w-6 bg-background border border-border shadow-sm hover:bg-secondary"
+                        >
+                          <PanelLeft className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                  {!collapsed && (
+                    <div className="ml-0">
+                      <h1 className="text-lg font-bold text-foreground">AI Assistant</h1>
+                      <p className="text-xs text-muted-foreground">SaaS Platform</p>
+                    </div>
+                  )}
+                </div>
+                {/* Expanded state trigger */}
+                {!collapsed && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleToggleSidebar}
+                    className="h-8 w-8 ml-2 hover:bg-secondary"
+                  >
+                    <PanelLeft className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {/* Mobile Header (existing) */}
+            {isMobile && (
+              <>
             <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
               <Bot className="w-6 h-6 text-white" />
             </div>
-            {(!collapsed || isMobile) && (
               <div className="ml-3">
                 <h1 className="text-lg font-bold text-foreground">AI Assistant</h1>
                 <p className="text-xs text-muted-foreground">SaaS Platform</p>
               </div>
+              </>
             )}
           </div>
 
           {/* Navigation Menu */}
           <SidebarGroup className="flex-1 p-1">
-            {!isMobile && (
-              <SidebarTrigger className="text-xs font-semibold text-muted-foreground mb-4"/>
-            )}
             <SidebarGroupContent>
               <SidebarMenu className={cn("space-y-2", collapsed && !isMobile ? "px-2" : "")}>
                 {menuItems.map((item) => (
