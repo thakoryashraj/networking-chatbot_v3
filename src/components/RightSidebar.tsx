@@ -93,11 +93,6 @@ export const RightSidebar = () => {
 	const [selectedLead, setSelectedLead] = useState<RecentLead | null>(null);
 	const [viewModalOpen, setViewModalOpen] = useState(false);
 
-	// Don't render on mobile
-	if (isMobile) {
-		return null;
-	}
-
 	// Fetch recent leads
 	useEffect(() => {
 		const fetchRecentLeads = async () => {
@@ -126,6 +121,11 @@ export const RightSidebar = () => {
 
 		fetchRecentLeads();
 	}, [user]);
+
+	// Don't render on mobile
+	if (isMobile) {
+		return null;
+	}
 
 	const handleLeadClick = (lead: RecentLead) => {
 		setSelectedLead(lead);
