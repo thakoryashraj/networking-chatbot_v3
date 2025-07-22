@@ -5,8 +5,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogHeader,
-  DialogTitle,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Lead } from '@/hooks/useLeads';
@@ -69,12 +67,6 @@ export function ViewLeadDialog({ lead, open, onOpenChange }: ViewLeadDialogProps
           </DialogDescription>
         </DialogHeader>
 
-        <DialogHeader>
-          <DialogTitle>Lead Details</DialogTitle>
-          <DialogDescription>
-            View detailed information about this lead.
-          </DialogDescription>
-        </DialogHeader>
         <div className="space-y-6">
           {/* Header with name and badges */}
           <div className="flex items-start justify-between">
