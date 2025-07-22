@@ -62,12 +62,12 @@ export const ChatInterface = () => {
         }
 
         // Initialize chat with dynamic metadata
-        const metadata = {
+        const metadata =JSON.stringify( {
           id: profile?.id || session.user.id,
           name: profile?.full_name || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
           email: profile?.email || session.user.email,
           phone: profile?.phone || session.user.user_metadata?.phone || null
-        };
+        });
 
         createChat({
           webhookUrl: 'https://automation.thinknlink.in/webhook/a5ccd76a-05e7-4584-9066-e803408c4c40/chat',
