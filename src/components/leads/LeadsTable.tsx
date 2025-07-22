@@ -90,64 +90,73 @@ export function LeadsTable({ leads }: LeadsTableProps) {
   return (
     <>
       <div className="rounded-md border bg-background/80 backdrop-blur-sm overflow-hidden">
+        <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Inquiry Type</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Source</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="min-w-[120px]">Name</TableHead>
+              <TableHead className="min-w-[180px] hidden sm:table-cell">Email</TableHead>
+              <TableHead className="min-w-[120px] hidden md:table-cell">Phone</TableHead>
+              <TableHead className="min-w-[120px] hidden lg:table-cell">Company</TableHead>
+              <TableHead className="min-w-[120px] hidden lg:table-cell">Inquiry Type</TableHead>
+              <TableHead className="min-w-[100px]">Status</TableHead>
+              <TableHead className="min-w-[100px] hidden md:table-cell">Source</TableHead>
+              <TableHead className="min-w-[100px] hidden sm:table-cell">Created</TableHead>
+              <TableHead className="text-right min-w-[120px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {leads.map((lead) => (
               <TableRow key={lead.id}>
-                <TableCell className="font-medium">{lead.full_name}</TableCell>
-                <TableCell>{lead.email || '-'}</TableCell>
-                <TableCell>{lead.phone || '-'}</TableCell>
-                <TableCell>{lead.company || '-'}</TableCell>
-                <TableCell>{lead.inquiry_type || '-'}</TableCell>
+                <TableCell className="font-medium">
+                  <div>
+                    <div className="font-medium">{lead.full_name}</div>
+                    <div className="text-sm text-muted-foreground sm:hidden">
+                      {lead.email && <div>{lead.email}</div>}
+                      {lead.company && <div>{lead.company}</div>}
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell">{lead.email || '-'}</TableCell>
+                <TableCell className="hidden md:table-cell">{lead.phone || '-'}</TableCell>
+                <TableCell className="hidden lg:table-cell">{lead.company || '-'}</TableCell>
+                <TableCell className="hidden lg:table-cell">{lead.inquiry_type || '-'}</TableCell>
                 <TableCell>
                   <Badge variant="outline" className={getStatusColor(lead.status)}>
                     {lead.status}
                   </Badge>
                 </TableCell>
-                <TableCell>
+                <TableCell className="hidden md:table-cell">
                   <Badge variant="outline" className={getSourceColor(lead.source)}>
                     {lead.source.replace('_', ' ')}
                   </Badge>
                 </TableCell>
-                <TableCell>
+                <TableCell className="hidden sm:table-cell">
                   {format(new Date(lead.created_at), 'MMM dd, yyyy')}
                 </TableCell>
                 <TableCell className="text-right">
-                  <div className="flex justify-end gap-1">
+                  <div className="flex justify-end gap-1 flex-wrap">
                     <Button
                       variant="ghost"
-                      size="icon"
+                      size="sm"
                       onClick={() => setViewLead(lead)}
-                      className="h-8 w-8"
+                      className="h-8 w-8 sm:h-9 sm:w-9"
                     >
                       <Eye className="w-4 h-4" />
                     </Button>
                     <Button
                       variant="ghost"
-                      size="icon"
+                      size="sm"
                       onClick={() => setEditLead(lead)}
-                      className="h-8 w-8"
+                      className="h-8 w-8 sm:h-9 sm:w-9"
                     >
                       <Edit className="w-4 h-4" />
                     </Button>
                     <Button
                       variant="ghost"
-                      size="icon"
+                      size="sm"
                       onClick={() => setDeleteLeadId(lead.id)}
-                      className="h-8 w-8 text-destructive hover:text-destructive"
+                      className="h-8 w-8 sm:h-9 sm:w-9 text-destructive hover:text-destructive"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -157,6 +166,7 @@ export function LeadsTable({ leads }: LeadsTableProps) {
             ))}
           </TableBody>
         </Table>
+        </div>
       </div>
 
       {/* View Dialog */}

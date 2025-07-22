@@ -113,13 +113,13 @@ export function AddLeadDialog({ children }: AddLeadDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children || (
-          <Button className="bg-primary hover:bg-primary/90">
+          <Button className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
             <Plus className="w-4 h-4 mr-2" />
             Add Lead
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4">
         <DialogHeader>
           <DialogTitle id={titleId}>Add New Lead</DialogTitle>
           <DialogDescription>

@@ -38,15 +38,15 @@ export function LeadFilters({ filters, onFiltersChange }: LeadFiltersProps) {
   return (
     <Card className="mb-6 bg-background/80 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <Filter className="w-5 h-5" />
           Filters & Search
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col sm:flex-row gap-4 items-end">
+        <div className="flex flex-col gap-4">
           {/* Search Input */}
-          <div className="relative flex-1 min-w-0">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               placeholder="Search by name or email..."
@@ -56,8 +56,10 @@ export function LeadFilters({ filters, onFiltersChange }: LeadFiltersProps) {
             />
           </div>
 
-          {/* Status Filter */}
-          <div className="w-full sm:w-48">
+          {/* Filters Row */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Status Filter */}
+            <div className="flex-1 sm:max-w-48">
             <Select
               value={filters.status}
               onValueChange={(value) => onFiltersChange({ status: value as LeadStatus | 'all' })}
@@ -75,8 +77,8 @@ export function LeadFilters({ filters, onFiltersChange }: LeadFiltersProps) {
             </Select>
           </div>
 
-          {/* Source Filter */}
-          <div className="w-full sm:w-48">
+            {/* Source Filter */}
+            <div className="flex-1 sm:max-w-48">
             <Select
               value={filters.source}
               onValueChange={(value) => onFiltersChange({ source: value as LeadSource | 'all' })}
@@ -93,6 +95,7 @@ export function LeadFilters({ filters, onFiltersChange }: LeadFiltersProps) {
               </SelectContent>
             </Select>
           </div>
+        </div>
         </div>
       </CardContent>
     </Card>

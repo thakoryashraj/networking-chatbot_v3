@@ -10,68 +10,70 @@ const Leads = () => {
   const { leads, loading, filters, updateFilters } = useLeads();
 
   return (
-    <div className="p-6 bg-gradient-chat min-h-screen">
+    <div className="p-4 sm:p-6 bg-gradient-chat min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Leads Management</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Leads Management</h1>
             <p className="text-muted-foreground mt-2">Manage and track your potential customers</p>
           </div>
-          <AddLeadDialog />
+          <div className="w-full sm:w-auto">
+            <AddLeadDialog />
+          </div>
         </div>
 
         {/* Filters & Search */}
         <LeadFilters filters={filters} onFiltersChange={updateFilters} />
 
         {/* Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
           <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Leads</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{leads.length}</div>
-              <p className="text-xs text-muted-foreground">leads in your pipeline</p>
+              <div className="text-xl sm:text-2xl font-bold">{leads.length}</div>
+              <p className="text-xs text-muted-foreground hidden sm:block">leads in your pipeline</p>
             </CardContent>
           </Card>
 
           <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Hot Leads</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">Hot Leads</CardTitle>
               <div className="w-3 h-3 bg-red-500 rounded-full"></div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">
+              <div className="text-xl sm:text-2xl font-bold text-red-600">
                 {leads.filter(l => l.status === 'hot').length}
               </div>
-              <p className="text-xs text-muted-foreground">high priority leads</p>
+              <p className="text-xs text-muted-foreground hidden sm:block">high priority leads</p>
             </CardContent>
           </Card>
 
           <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Won Leads</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">Won Leads</CardTitle>
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-xl sm:text-2xl font-bold text-green-600">
                 {leads.filter(l => l.status === 'won').length}
               </div>
-              <p className="text-xs text-muted-foreground">successful conversions</p>
+              <p className="text-xs text-muted-foreground hidden sm:block">successful conversions</p>
             </CardContent>
           </Card>
 
           <Card className="bg-background/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New Leads</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">New Leads</CardTitle>
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-xl sm:text-2xl font-bold text-blue-600">
                 {leads.filter(l => l.status === 'new').length}
               </div>
-              <p className="text-xs text-muted-foreground">awaiting contact</p>
+              <p className="text-xs text-muted-foreground hidden sm:block">awaiting contact</p>
             </CardContent>
           </Card>
         </div>
