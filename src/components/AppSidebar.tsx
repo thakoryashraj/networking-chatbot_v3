@@ -136,16 +136,16 @@ export function AppSidebar() {
                   onMouseEnter={() => collapsed && setShowTrigger(true)}
                   onMouseLeave={() => collapsed && setShowTrigger(false)}
                 >
-                  <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center relative">
+                  <div className="w-7 h-7 bg-gradient-primary rounded-xl flex items-center justify-center relative">
                     <Bot className="w-6 h-6 text-white" />
                     {/* Hover trigger for collapsed state */}
                     {collapsed && showTrigger && (
-                      <div className="absolute -right-2 -top-2">
+                      <div className="absolute">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={handleToggleSidebar}
-                          className="h-6 w-6 bg-background border border-border shadow-sm hover:bg-secondary"
+                          className="h-7 w-7 bg-background border border-border shadow-sm hover:bg-primary"
                         >
                           <PanelLeft className="w-3 h-3" />
                         </Button>
@@ -251,7 +251,7 @@ export function AppSidebar() {
               </div>
             ) : (
               <div 
-                className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center mx-auto cursor-pointer hover:opacity-80 transition-opacity overflow-hidden"
+                className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center mx-auto cursor-pointer hover:opacity-80 transition-opacity overflow-hidden"
                 onClick={handleUserSectionClick}
               >
                 {profile?.avatar_url ? (
