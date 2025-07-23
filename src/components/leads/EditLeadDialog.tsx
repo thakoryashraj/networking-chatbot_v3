@@ -127,7 +127,7 @@ export function EditLeadDialog({ lead, open, onOpenChange }: EditLeadDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" aria-labelledby={titleId}>
         <DialogHeader>
           <DialogTitle id={titleId}>Edit Lead</DialogTitle>
           <DialogDescription>
