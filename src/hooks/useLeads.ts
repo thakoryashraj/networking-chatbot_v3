@@ -109,18 +109,13 @@ export function useLeads() {
     try {
       const { error } = await supabase
         .from('leads')
-        toast.error('Failed to load leads. Please try again.', {
-          duration: 4000,
-          position: 'top-right',
+        .insert({
+          ...leadData,
+          created_by: user.id,
+          source: 'manual'
         });
 
       if (error) throw error;
-
-      // Remove the manual toast as realtime will handle it
-      // toast({
-      //   title: 'Lead Created',
-      //   description: 'New lead has been successfully added.',
-      // });
 
       await loadLeads();
       return true;
@@ -150,12 +145,6 @@ export function useLeads() {
 
       if (error) throw error;
 
-      // Remove the manual toast as realtime will handle it
-      // toast({
-      //   title: 'Lead Updated',
-      //   description: 'Lead has been successfully updated.',
-      // });
-
       await loadLeads();
       return true;
     } catch (error) {
@@ -183,12 +172,6 @@ export function useLeads() {
         .eq('created_by', user.id);
 
       if (error) throw error;
-
-      // Remove the manual toast as realtime will handle it
-      // toast({
-      //   title: 'Lead Deleted',
-      //   description: 'Lead has been successfully deleted.',
-      // });
 
       await loadLeads();
       return true;
