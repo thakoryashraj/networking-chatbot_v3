@@ -730,7 +730,7 @@ export const ChatInterface = () => {
         .n8n-chat-container .n8n-chat-attachment-button {
           background: transparent;
           border: none;
-          color: hsl(var(--muted-foreground));
+          color: hsl(var(--foreground));
           cursor: pointer;
           padding: 4px;
           border-radius: 50%;
@@ -895,6 +895,24 @@ export const ChatInterface = () => {
 
         .dark .n8n-chat-container .n8n-chat-typing::before {
           border-bottom-color: hsl(var(--card));
+        }
+
+        /* Ensure proper text color in dark mode */
+        .dark .n8n-chat-container .n8n-chat-input {
+          color: hsl(var(--foreground));
+        }
+
+        .dark .n8n-chat-container .n8n-chat-input::placeholder {
+          color: hsl(var(--muted-foreground));
+        }
+
+        /* Ensure attachment button is visible in dark mode */
+        .dark .n8n-chat-container .n8n-chat-attachment-button {
+          color: hsl(var(--muted-foreground));
+        }
+
+        .dark .n8n-chat-container .n8n-chat-attachment-button:hover {
+          color: hsl(var(--foreground));
         }
       `}</style>
     </div>
