@@ -14,7 +14,8 @@ import {
   User,
   Menu,
   X,
-  PanelLeft
+  PanelLeft,
+  BookOpen
 } from "lucide-react";
 import {
   Sidebar,
@@ -40,6 +41,7 @@ const menuItems = [
   { title: "Leads", url: "/leads", icon: Users },
   { title: "Appointments", url: "/appointments", icon: Calendar },
   { title: "Mails", url: "/mails", icon: Mail },
+  { title: "Knowledge Base", url: "/knowledge-base", icon: BookOpen },
   { title: "Settings", url: "/settings", icon: Settings },
   { title: "Upgrade", url: "/upgrade", icon: Crown },
   { title: "Tutorial", url: "/tutorial", icon: HelpCircle },
