@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ViewLeadDialog } from "@/components/leads/ViewLeadDialog";
 import { formatDistanceToNow } from "date-fns";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLeadsRealtime } from "@/hooks/useLeadsRealtime";
 
 interface RecentLead {
 	id: string;
@@ -92,6 +93,9 @@ export const RightSidebar = () => {
 	const [loading, setLoading] = useState(true);
 	const [selectedLead, setSelectedLead] = useState<RecentLead | null>(null);
 	const [viewModalOpen, setViewModalOpen] = useState(false);
+	
+	// Enable realtime notifications for lead changes
+	useLeadsRealtime();
 
 	// Fetch recent leads
 	useEffect(() => {
