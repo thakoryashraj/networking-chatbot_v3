@@ -9,7 +9,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ViewLeadDialog } from "@/components/leads/ViewLeadDialog";
 import { formatDistanceToNow } from "date-fns";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useLeadsRealtime } from "@/hooks/useLeadsRealtime";
 
 interface RecentLead {
 	id: string;
@@ -93,9 +92,6 @@ export const RightSidebar = () => {
 	const [loading, setLoading] = useState(true);
 	const [selectedLead, setSelectedLead] = useState<RecentLead | null>(null);
 	const [viewModalOpen, setViewModalOpen] = useState(false);
-	
-	// Enable realtime notifications for lead changes
-	useLeadsRealtime();
 
 	// Fetch recent leads
 	useEffect(() => {
@@ -124,6 +120,52 @@ export const RightSidebar = () => {
 		};
 
 		fetchRecentLeads();
+	}, [user]);
+
+	// Set up realtime subscription for recent leads updates
+	useEffect(() => {
+		if (!user) return;
+
+		const subscription = supabase
+			.channel('recent-leads-updates')
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'leads',
+					filter: `created_by=eq.${user.id}`
+				},
+				() => {
+					// Refresh recent leads when any lead changes
+					const fetchRecentLeads = async () => {
+						try {
+							const { data, error } = await supabase
+								.from('leads')
+								.select('*')
+								.eq('created_by', user.id)
+								.order('created_at', { ascending: false })
+								.limit(5);
+
+							if (error) {
+								console.error('Error fetching recent leads:', error);
+								return;
+							}
+
+							setRecentLeads(data || []);
+						} catch (error) {
+							console.error('Error fetching recent leads:', error);
+						}
+					};
+
+					fetchRecentLeads();
+				}
+			)
+			.subscribe();
+
+		return () => {
+			subscription.unsubscribe();
+		};
 	}, [user]);
 
 	// Don't render on mobile
