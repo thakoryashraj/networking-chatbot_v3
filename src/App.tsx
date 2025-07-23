@@ -16,6 +16,7 @@ import Analytics from "./pages/Analytics";
 import Leads from "./pages/Leads";
 import Appointments from "./pages/Appointments";
 import Mails from "./pages/Mails";
+import KnowledgeBase from "./pages/KnowledgeBase";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Upgrade from "./pages/Upgrade";
@@ -44,6 +45,7 @@ const AppContent = () => {
                     <Route path="/leads" element={<Leads />} />
                     <Route path="/appointments" element={<Appointments />} />
                     <Route path="/mails" element={<Mails />} />
+                    <Route path="/knowledge-base" element={<KnowledgeBase />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/upgrade" element={<Upgrade />} />
