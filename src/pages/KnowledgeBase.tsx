@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, ExternalLink, Trash2, Calendar, Link } from "lucide-react";
+import { Plus, ExternalLink, Trash2, Calendar, Link, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +32,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { useKnowledgeBase } from "@/hooks/useKnowledgeBase";
+import { useProfile } from "@/hooks/useProfile";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 
 const getStatusColor = (status: string) => {
@@ -48,9 +51,13 @@ const getStatusColor = (status: string) => {
 };
 
 const KnowledgeBase = () => {
+  const { user } = useAuth();
+  const { profile } = useProfile();
+  const { toast } = useToast();
   const { urls, loading, creating, deleting, createUrl, deleteUrl } = useKnowledgeBase();
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [deleteUrlId, setDeleteUrlId] = useState<string | null>(null);
+  const [sendingUrlId, setSendingUrlId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     drive_url: "",
@@ -79,6 +86,55 @@ const KnowledgeBase = () => {
 
   const resetForm = () => {
     setFormData({ title: "", drive_url: "" });
+  };
+
+  const handleSendToWebhook = async (url: any) => {
+    if (!user || !profile) {
+      toast({
+        title: 'Error',
+        description: 'User information not available.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setSendingUrlId(url.id);
+    
+    try {
+      const payload = {
+        user_id: user.id,
+        username: profile.full_name || user.email?.split('@')[0] || 'Unknown User',
+        url_id: url.id,
+        drive_url: url.drive_url,
+        title: url.title,
+      };
+
+      const response = await fetch('https://automation.thinknlink.in/webhook-test/knowledge-base', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      toast({
+        title: 'Sent Successfully',
+        description: 'URL has been sent to the processing webhook.',
+      });
+    } catch (error) {
+      console.error('Error sending to webhook:', error);
+      toast({
+        title: 'Send Failed',
+        description: 'Failed to send URL to webhook. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setSendingUrlId(null);
+    }
   };
 
   return (
@@ -252,7 +308,7 @@ const KnowledgeBase = () => {
                       <TableHead className="min-w-[300px] hidden sm:table-cell">URL</TableHead>
                       <TableHead className="min-w-[100px]">Status</TableHead>
                       <TableHead className="min-w-[120px] hidden md:table-cell">Created</TableHead>
-                      <TableHead className="text-right min-w-[100px]">Actions</TableHead>
+                      <TableHead className="text-right min-w-[120px]">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -294,15 +350,32 @@ const KnowledgeBase = () => {
                           </div>
                         </TableCell>
                         <TableCell className="text-right">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setDeleteUrlId(url.id)}
-                            className="h-8 w-8 text-destructive hover:text-destructive"
-                            disabled={deleting}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          <div className="flex items-center justify-end gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleSendToWebhook(url)}
+                              className="h-8 w-8 text-primary hover:text-primary"
+                              disabled={sendingUrlId === url.id || deleting}
+                              title="Send to processing webhook"
+                            >
+                              {sendingUrlId === url.id ? (
+                                <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                              ) : (
+                                <Send className="w-4 h-4" />
+                              )}
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setDeleteUrlId(url.id)}
+                              className="h-8 w-8 text-destructive hover:text-destructive"
+                              disabled={deleting || sendingUrlId === url.id}
+                              title="Delete URL"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
