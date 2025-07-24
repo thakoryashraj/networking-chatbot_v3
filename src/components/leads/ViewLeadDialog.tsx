@@ -59,7 +59,7 @@ export function ViewLeadDialog({ lead, open, onOpenChange }: ViewLeadDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl" aria-labelledby={titleId}>
         <DialogHeader>
           <DialogTitle id={titleId}>Lead Details</DialogTitle>
           <DialogDescription>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import toast from 'react-hot-toast';
 
 export type LeadStatus = 'new' | 'contacted' | 'interested' | 'hot' | 'warm' | 'cold' | 'won' | 'lost';
 export type LeadSource = 'chat' | 'visiting_card' | 'manual';
@@ -110,25 +111,19 @@ export function useLeads() {
         .from('leads')
         .insert({
           ...leadData,
-          source: 'manual' as LeadSource,
           created_by: user.id,
+          source: 'manual'
         });
 
       if (error) throw error;
-
-      toast({
-        title: 'Lead Created',
-        description: 'New lead has been successfully added.',
-      });
 
       await loadLeads();
       return true;
     } catch (error) {
       console.error('Error creating lead:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to create lead. Please try again.',
-        variant: 'destructive',
+      toast.error('Failed to create lead. Please try again.', {
+        duration: 4000,
+        position: 'top-right',
       });
       return false;
     } finally {
@@ -150,19 +145,13 @@ export function useLeads() {
 
       if (error) throw error;
 
-      toast({
-        title: 'Lead Updated',
-        description: 'Lead has been successfully updated.',
-      });
-
       await loadLeads();
       return true;
     } catch (error) {
       console.error('Error updating lead:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to update lead. Please try again.',
-        variant: 'destructive',
+      toast.error('Failed to update lead. Please try again.', {
+        duration: 4000,
+        position: 'top-right',
       });
       return false;
     } finally {
@@ -184,19 +173,13 @@ export function useLeads() {
 
       if (error) throw error;
 
-      toast({
-        title: 'Lead Deleted',
-        description: 'Lead has been successfully deleted.',
-      });
-
       await loadLeads();
       return true;
     } catch (error) {
       console.error('Error deleting lead:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to delete lead. Please try again.',
-        variant: 'destructive',
+      toast.error('Failed to delete lead. Please try again.', {
+        duration: 4000,
+        position: 'top-right',
       });
       return false;
     } finally {

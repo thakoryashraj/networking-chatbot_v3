@@ -5,9 +5,13 @@ import { AddLeadDialog } from "@/components/leads/AddLeadDialog";
 import { LeadFilters } from "@/components/leads/LeadFilters";
 import { LeadsTable } from "@/components/leads/LeadsTable";
 import { useLeads } from "@/hooks/useLeads";
+import { useLeadsRealtime } from "@/hooks/useLeadsRealtime";
 
 const Leads = () => {
   const { leads, loading, filters, updateFilters } = useLeads();
+  
+  // Enable realtime notifications for lead changes
+  useLeadsRealtime();
 
   return (
     <div className="p-4 sm:p-6 bg-gradient-chat min-h-screen">

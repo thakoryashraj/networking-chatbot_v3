@@ -119,7 +119,7 @@ export function AddLeadDialog({ children }: AddLeadDialogProps) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4" aria-labelledby={titleId}>
         <DialogHeader>
           <DialogTitle id={titleId}>Add New Lead</DialogTitle>
           <DialogDescription>
