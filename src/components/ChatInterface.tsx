@@ -889,13 +889,26 @@ export const ChatInterface = () => {
         }
 
         /* Dark mode specific adjustments */
-        .dark .n8n-chat-container .n8n-chat-message.bot::before {
+        .dark .n8n-chat-container .chat-message.bot::before {
           border-bottom-color: hsl(var(--card));
         }
 
-        .dark .n8n-chat-container .n8n-chat-typing::before {
-          border-bottom-color: hsl(var(--card));
+        .dark .n8n-chat-container .chat-inputs textarea {
+          // color: hsl(var(--card));
+          color: white;
         }
+          .n8n-chat-container .chat-input-file-button{
+          color: hsl(var(--foreground));
+          }
+          .n8n-chat-container .chat-input-file-button:hover{
+          color: hsl(var(--primary)); 
+      }
+          .n8n-chat-container .chat-input-send-button{
+          color: hsl(var(--foreground));
+      }
+          .n8n-chat-container .chat-input-send-button:hover{
+          color: hsl(var(--primary));
+      }
       `}</style>
     </div>
   );
