@@ -1,9 +1,11 @@
 import { ChatInterface } from "@/components/ChatInterface";
 import { RightSidebar } from "@/components/RightSidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLeadsRealtime } from "@/hooks/useLeadsRealtime";
 
 const Chat = () => {
   const isMobile = useIsMobile();
+useLeadsRealtime();
 
   return (
     <div className="h-screen">
