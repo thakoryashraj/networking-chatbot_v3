@@ -36,6 +36,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -109,7 +110,7 @@ const KnowledgeBase = () => {
         title: url.title,
       };
 
-      const response = await fetch('https://automation.thinknlink.in/webhook-test/knowledge-base', {
+      const response = await fetch('https://automation.thinknlink.in/webhook/knowledge-base', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -351,20 +352,33 @@ const KnowledgeBase = () => {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-1">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleSendToWebhook(url)}
-                              className="h-8 w-8 text-primary hover:text-primary"
-                              disabled={sendingUrlId === url.id || deleting}
-                              title="Send to processing webhook"
-                            >
-                              {sendingUrlId === url.id ? (
-                                <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-                              ) : (
-                                <Send className="w-4 h-4" />
-                              )}
-                            </Button>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <span>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => handleSendToWebhook(url)}
+                                      className="h-8 w-8 text-primary hover:text-primary"
+                                      disabled={sendingUrlId === url.id || deleting || url.status !== 'pending'}
+                                      title="Send to processing webhook"
+                                    >
+                                      {sendingUrlId === url.id ? (
+                                        <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                                      ) : (
+                                        <Send className="w-4 h-4" />
+                                      )}
+                                    </Button>
+                                  </span>
+                                </TooltipTrigger>
+                                {url.status !== 'pending' && (
+                                  <TooltipContent>
+                                    Already Processed
+                                  </TooltipContent>
+                                )}
+                              </Tooltip>
+                            </TooltipProvider>
                             <Button
                               variant="ghost"
                               size="sm"
